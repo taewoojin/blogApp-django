@@ -26,5 +26,4 @@ class Post(models.Model):
         return self.get_previous_by_modify_date()
 
     def get_next_post(self):
-        self._get_next_or_previous_by_FIELD()
         return self.get_next_by_modify_date()
