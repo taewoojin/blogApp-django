@@ -28,6 +28,11 @@
 </div>
 
 <div>
+    {% load disqus_tags %}
+    {% disqus_show_comments %}
+</div>
+
+<div>
     {% load tagging_tags %}
 
     <b>TAGS: </b>
@@ -39,7 +44,10 @@
 
     <a href="{% url 'blog:tag_cloud' %}"><i>[ Tag Cloud ]</i></a>
 
+    <br/>
+
 </div>
+
 
 {% endblock %}
 
