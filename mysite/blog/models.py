@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.urlresolvers import reverse
+from tagging.fields import TagField
 
 
 class Post(models.Model):
@@ -9,6 +10,7 @@ class Post(models.Model):
     content = models.TextField('CONTENT')
     create_date = models.DateTimeField('CREATE DATE', auto_now_add=True)
     modify_date = models.DateTimeField('MODIFY DATE', auto_now=True)
+    tag = TagField()
 
     class Meta:
         verbose_name = 'post'
