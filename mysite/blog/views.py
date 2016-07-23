@@ -1,7 +1,10 @@
-from django.shortcuts import render
+from blog.forms import PostSearchForm
 from blog.models import Post
+from django.db.models import Q
+from django.shortcuts import render
 from django.views.generic import DetailView, ListView, TemplateView
 from django.views.generic.dates import ArchiveIndexView, YearArchiveView, MonthArchiveView, DayArchiveView, TodayArchiveView
+from django.views.generic.edit import FormView
 from tagging.models import Tag, TaggedItem
 from tagging.views import TaggedObjectList
 
@@ -50,3 +53,23 @@ class TagTV(TemplateView):
 class PostTOL(TaggedObjectList):
     model = Post
     template_name = 'tagging/tagging_post_list.html'
+
+
+class SearchFormView(FormView):
+    form_class = PostSearchForm
+    template_name = 'blog/post_search.html'
+
+    def form_valid(self, form):
+        schWord = '{}'.format(self.request.POST['search_word'])
+        post_list = Post.objects.filter(
+            Q(title__icontains=schWord) |
+            Q(content__icontains=schWord) |
+            Q(description__icontains=schWord)
+        ).distinct()
+
+        context = dict()
+        context['form'] = form
+        context['search_term'] = schWord
+        context['object_list'] = post_list
+
+        return render(self.request, self.template_name, context)
