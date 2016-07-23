@@ -1,18 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <div id="content">
-        <h1>{{ object.title }}</h1>
+{% block title %}Django Bookmark Detail{% endblock %}
 
-        <ul>
-            <li>URL: <a href="{{ object.url }}">{{ object.url }}</a></li>
-        </ul>
-    </div>
+{% block content %}
 
-</body>
-</html>
+<div id="content">
+    <h1>{{ object.title }}</h1>
+
+    <ul>
+        <li>URL: <a href="{{ object.url }}">{{ object.url }}</a></li>
+    </ul>
+</div>
+
+{% endblock %}
