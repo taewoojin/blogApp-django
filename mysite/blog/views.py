@@ -1,10 +1,12 @@
 from blog.forms import PostSearchForm
 from blog.models import Post
+from django.core.urlresolvers import reverse_lazy
 from django.db.models import Q
 from django.shortcuts import render
 from django.views.generic import DetailView, ListView, TemplateView
 from django.views.generic.dates import ArchiveIndexView, YearArchiveView, MonthArchiveView, DayArchiveView, TodayArchiveView
-from django.views.generic.edit import FormView
+from django.views.generic.edit import FormView, CreateView, DeleteView, UpdateView
+from mysite.views import LoginRequiredMixin
 from tagging.models import Tag, TaggedItem
 from tagging.views import TaggedObjectList
 
@@ -73,3 +75,33 @@ class SearchFormView(FormView):
         context['object_list'] = post_list
 
         return render(self.request, self.template_name, context)
+
+
+class PostCreateView(CreateView):
+    model = Post
+    fields = ['title', 'slug', 'description', 'content', 'tag']
+    initial = {'slug': 'auto-pilling-do-not-input', }       # 입력란의 초기문구
+    # fields = ['title', 'description', 'content', 'tag']   # save method에서 slug 미입력시 auto로 설정되게 했으므로 제외 가능
+    success_url = reverse_lazy('blog:index')
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super(PostCreateView, self).form_valid(form)
+
+
+class PostChangeLV(LoginRequiredMixin, ListView):
+    template_name = 'blog/post_change_list.html'
+
+    def get_queryset(self):
+        return Post.objects.filter(owner=self.request.user)
+
+
+class PostUpdateView(LoginRequiredMixin, UpdateView):
+    model = Post
+    fields = ['title', 'slug', 'description', 'content', 'tag']
+    success_url = reverse_lazy('blog:index')
+
+
+class PostDeleteView(LoginRequiredMixin, DeleteView):
+    model = Post
+    success_url = reverse_lazy('blog:index')
