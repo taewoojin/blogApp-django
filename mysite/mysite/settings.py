@@ -31,18 +31,23 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # django apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+
+    # local apps
     'blog.apps.BlogConfig',
     'bookmark.apps.BookmarkConfig',
     'tagging.apps.TaggingConfig',
-    'disqus',
-    'django.contrib.sites',
     'photo.apps.PhotoConfig',
+
+    # third apps
+    'disqus',
 ]
 
 DISQUS_WEBSITE_SHORTNAME = 'djangoprogramming'
@@ -138,3 +143,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, '..', 'staticfiles')
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'media')
+
+# LOGIN_URL = '/accounts/login/'
+# LOGOUT_URL = '/accounts/logout/'
+LOGIN_REDIRECT_URL = '/'
