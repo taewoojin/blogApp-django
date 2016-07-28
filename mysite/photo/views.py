@@ -34,7 +34,8 @@ class PhotoChangeLV(LoginRequiredMixin, ListView):
     template_name = 'photo/photo_change_list.html'
 
     def get_queryset(self):
-        return Photo.objects.filter(owner=self.request.user)
+        return super(PhotoChangeLV, self).get_queryset().filter(owner=self.request.user)
+        # return Photo.objects.filter(owner=self.request.user)
 
 
 class PhotoUpdateView(LoginRequiredMixin, UpdateView):
@@ -53,7 +54,7 @@ class AlbumChangeLV(ListView):
     template_name = 'photo/album_change_list.html'
 
     def get_queryset(self):
-        return Album.objects.filter(owner=self.request.user)
+        return super(AlbumChangeLV, self).get_queryset().filter(owner=self.request.user)
 
 
 class AlbumDeleteView(DeleteView):
