@@ -6,6 +6,7 @@ from photo.fields import ThumbnailImageField
 class Album(models.Model):
     name = models.CharField(max_length=50)
     description = models.CharField('One Line Description', max_length=100, blank=True)
+    owner = models.ForeignKey('auth.User', null=True)
 
     class Meta:
         ordering = ['name']
@@ -23,6 +24,7 @@ class Photo(models.Model):
     image = ThumbnailImageField(upload_to='photo/%Y/%m')
     description = models.TextField('Photo Description', blank=True)
     upload_date = models.DateTimeField('Upload Date', auto_now_add=True)
+    owner = models.ForeignKey('auth.User', null=True)
 
     class Meta:
         ordering = ['title']
